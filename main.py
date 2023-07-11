@@ -14,7 +14,7 @@ prolog.consult("postgres.pl", True)
 
 @app.route("/")
 def Index():
-    c = bool(list(prolog.query("abrir_conexion")))
+
     datos = list(prolog.query("datos(X)"))
 
     return render_template("index.html", data=datos)
@@ -26,17 +26,15 @@ def add_padre():
         padre = request.form["padre"]
         hijo = request.form["hijo"]
         print(padre, hijo)
-        
-        #c = bool(list(prolog.query("abrir_conexion")))
-        cadena = list(prolog.query("cadenaPH(juan,perez,X)"))
-        insert = list(prolog.query("es_padre1(juan,mario,X)"))
 
-        print(cadena,insert);
+        insert = list(prolog.query("es_padre(" + padre + "," + hijo + ",X)"))
+
+        print(insert)
         flash("Added successfully")
-       
+
         return redirect(url_for("Index"))
 
 
 # starting the app
 if __name__ == "__main__":
-    app.run(port=3000, debug=True)
+    app.run(port=4000, debug=True)
